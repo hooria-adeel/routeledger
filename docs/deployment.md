@@ -68,6 +68,7 @@ in front. Uvicorn trusts `X-Forwarded-*` from the proxy in the image.
 | `COOKIE_SECURE` | no (false) | set `true` behind HTTPS |
 | `ADMIN_DATABASE_URL` or `ADMIN_DB_PASSWORD` | first boot | lets `bootstrap_db` create the schema and role |
 | `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `ADMIN_NAME` | first boot | first Administrator account |
+| `LOAD_DEMO_DATA` | no (true) | load the 400 extra demo orders; set `false` for a real installation |
 | `PORT` | no (8000) | port Uvicorn listens on |
 
 ## Manual installation without Docker

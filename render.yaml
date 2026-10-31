@@ -49,3 +49,5 @@ services:
         value: "true"
       - key: TOKEN_MINUTES
         value: "60"
+      - key: LOAD_DEMO_DATA
+        value: "true"

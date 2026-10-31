@@ -120,7 +120,8 @@ What makes the database the interesting part of this project:
 - **Soft delete** — records are hidden, not destroyed, and Managers can restore them.
 
 The full ER diagram, data dictionary, normalisation notes and trigger catalogue are in
-[docs/database.md](docs/database.md).
+[docs/database.md](docs/database.md). Analytical queries and report SQL live in
+[docs/queries.sql](docs/queries.sql).
 
 ## Security
 
