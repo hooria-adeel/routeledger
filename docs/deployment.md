@@ -22,13 +22,30 @@ over HTTPS.
 
 ## Option B — Render (managed, free tier)
 
-1. Push the repository to GitHub.
-2. In Render choose **New → Blueprint** and select the repository.
+### 1. Push the repository to GitHub
+
+Create an **empty public repository** (no README, no `.gitignore`) at
+<https://github.com/new>, then from this folder:
+
+```bash
+git remote add origin https://github.com/<your-username>/routeledger.git
+git push -u origin main
+```
+
+### 2. Create the Render Blueprint
+
+1. Sign in at <https://dashboard.render.com> with GitHub.
+2. Choose **New → Blueprint**, select the `routeledger` repository, and apply.
    Render reads [`render.yaml`](../render.yaml), creates a PostgreSQL instance
-   and a Docker web service.
-3. After the first deploy, open the service's **Environment** tab and reveal
-   `ADMIN_PASSWORD`. Log in with `ADMIN_EMAIL` and that password.
-4. Change the admin password from the Employees page.
+   and a Docker web service, and builds the image.
+3. Wait for the first deploy to become **Live**.
+
+### 3. Get the login
+
+1. Open the `routeledger` service → **Environment**.
+2. Reveal `ADMIN_PASSWORD` (and note `ADMIN_EMAIL`).
+3. Open the service URL and log in.
+4. Change the admin password from the **Employees** page immediately.
 
 The container runs `scripts/bootstrap_db` when `ADMIN_DATABASE_URL` is present,
 then `scripts/bootstrap_admin`, then Uvicorn. Both are idempotent, so restarts
@@ -37,6 +54,17 @@ and redeploys are safe.
 Free instances sleep after inactivity, so the first request may take ~30 s.
 `RENDER_EXTERNAL_HOSTNAME` is picked up automatically for CORS and trusted
 hosts.
+
+### 4. Verify the deployment
+
+```bash
+curl https://<your-service>.onrender.com/health
+# {"status":"ok","products_in_database":93}
+```
+
+Also confirm: login works, the dashboard shows 460 orders, and
+`curl -I https://<your-service>.onrender.com/` returns
+`strict-transport-security` and `content-security-policy`.
 
 ## Option C — any Docker host or VPS
 
