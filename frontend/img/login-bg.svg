@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+  <style>
+    .route { fill: none; stroke: #ffffff; stroke-opacity: .28; stroke-width: 3; stroke-linecap: round; stroke-dasharray: 2 14; animation: flow 3s linear infinite; }
+    .route.orange { stroke: #f0477c; stroke-opacity: .55; animation-duration: 4s; }
+    @keyframes flow { to { stroke-dashoffset: -64; } }
+    @media (prefers-reduced-motion: reduce) { .route { animation: none; } }
+  </style>
+  <!-- big faint diamonds (decorative) -->
+  <g opacity=".07" fill="#ffffff">
+    <polygon points="1280,60 1480,260 1280,460 1080,260"/>
+    <polygon points="140,520 380,760 140,1000 -100,760"/>
+    <polygon points="760,-120 940,60 760,240 580,60"/>
+  </g>
+  <g opacity=".10">
+    <polygon points="1280,60 1280,260 1080,260" fill="#f0477c"/>
+    <polygon points="140,520 380,760 140,760" fill="#f0477c"/>
+  </g>
+  <!-- delivery routes -->
+  <path class="route" d="M-40 700 C 240 560, 420 820, 700 640 S 1160 420, 1420 560 S 1640 380, 1660 330"/>
+  <path class="route orange" d="M-40 300 C 200 180, 420 420, 640 300 S 1000 120, 1240 240 S 1500 110, 1660 150"/>
+  <path class="route" d="M300 940 C 420 760, 760 880, 900 700 S 1240 760, 1360 880"/>
+  <!-- stops along the routes -->
+  <g fill="#f0477c">
+    <circle cx="700" cy="640" r="7"/><circle cx="1420" cy="560" r="7"/><circle cx="640" cy="300" r="7"/>
+    <circle cx="1240" cy="240" r="7"/><circle cx="900" cy="700" r="7"/>
+  </g>
+  <g fill="none" stroke="#f0477c" stroke-opacity=".35" stroke-width="2">
+    <circle cx="700" cy="640" r="18"/><circle cx="1420" cy="560" r="18"/><circle cx="640" cy="300" r="18"/>
+    <circle cx="1240" cy="240" r="18"/><circle cx="900" cy="700" r="18"/>
+  </g>
+  <g fill="#ffffff" fill-opacity=".5">
+    <circle cx="240" cy="590" r="4"/><circle cx="1000" cy="560" r="4"/><circle cx="420" cy="260" r="4"/><circle cx="1500" cy="170" r="4"/>
+  </g>
+</svg>

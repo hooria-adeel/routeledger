@@ -1,0 +1,43 @@
+name: routeledger
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: routeledger
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d routeledger"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: routeledger
+      DB_USER: routeledger_app
+      DB_PASSWORD: ${APP_DB_PASSWORD:-dev-app-password-change-me}
+      ADMIN_DB_USER: postgres
+      ADMIN_DB_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@routeledger.example}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-RouteLedger!2026}
+      ADMIN_NAME: ${ADMIN_NAME:-RouteLedger Admin}
+      SECRET_KEY: ${SECRET_KEY:-dev-only-insecure-secret-change-me}
+      TOKEN_MINUTES: 60
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:8000,http://127.0.0.1:8000}
+      ALLOWED_HOSTS: ${ALLOWED_HOSTS:-localhost,127.0.0.1}
+      COOKIE_SECURE: ${COOKIE_SECURE:-false}
+
+volumes:
+  pgdata:
