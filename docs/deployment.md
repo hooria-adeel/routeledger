@@ -34,11 +34,11 @@ git push -u origin main
 
 ### 2. Create the Render Blueprint
 
-1. Sign in at <https://dashboard.render.com> with GitHub.
-2. Choose **New → Blueprint**, select the `routeledger` repository, and apply.
-   Render reads [`render.yaml`](../render.yaml), creates a PostgreSQL instance
-   and a Docker web service, and builds the image.
-3. Wait for the first deploy to become **Live**.
+Open **[Deploy to Render](https://render.com/deploy?repo=https://github.com/hooria-adeel/routeledger)**
+or, from the dashboard, choose **New → Blueprint**, select the `routeledger`
+repository, and apply. Render reads [`render.yaml`](../render.yaml), creates a
+PostgreSQL instance and a Docker web service, and builds the image. Wait for
+the first deploy to become **Live**.
 
 ### 3. Get the login
 

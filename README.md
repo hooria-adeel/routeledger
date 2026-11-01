@@ -3,11 +3,14 @@
 **A role-based distribution management system that replaces spreadsheet workflows with one
 auditable source of truth.**
 
+[![CI](https://github.com/hooria-adeel/routeledger/actions/workflows/ci.yml/badge.svg)](https://github.com/hooria-adeel/routeledger/actions/workflows/ci.yml)
 [![Tests](https://img.shields.io/badge/tests-93%20passed-brightgreen)](#testing)
 [![Python](https://img.shields.io/badge/python-3.12%20%7C%203.13-blue)](https://www.python.org/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16%2B-336791)](https://www.postgresql.org/)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Docker](https://img.shields.io/badge/docker-ready-2496ED)](Dockerfile)
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/hooria-adeel/routeledger)
 
 RouteLedger is a full-stack demo of the system a distributor needs when product lists, retailer
 lists and orders live in emailed Excel files. Employees log in, search one shared database, and
