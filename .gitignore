@@ -9,3 +9,10 @@ node_modules/
 
 .vercel
 .env*
+
+# generated deployment secrets
+.admin_password
+.vercel_secret
+.neon_app_password
+.neon_app_url
+.env.neon

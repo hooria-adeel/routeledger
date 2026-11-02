@@ -31,7 +31,7 @@ services:
       ADMIN_DB_USER: postgres
       ADMIN_DB_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
       ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@routeledger.example}
-      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-RouteLedger!2026}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?set ADMIN_PASSWORD to a strong password}
       ADMIN_NAME: ${ADMIN_NAME:-RouteLedger Admin}
       SECRET_KEY: ${SECRET_KEY:-dev-only-insecure-secret-change-me}
       TOKEN_MINUTES: 60

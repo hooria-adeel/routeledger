@@ -12,8 +12,10 @@ auditable source of truth.**
 
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/hooria-adeel/routeledger)
 
-**Live demo:** <https://routeledger-omega.vercel.app> — sign in with
-`admin@routeledger.example` / `RouteLedger!2026`.
+**Live demo:** <https://routeledger-omega.vercel.app> — sign in with the
+read-only account `demo@routeledger.example` / `DemoViewer!2026`. It can browse
+every list and the dashboard but cannot change data. The Administrator password
+is not published; set your own when you deploy.
 
 RouteLedger is a full-stack demo of the system a distributor needs when product lists, retailer
 lists and orders live in emailed Excel files. Employees log in, search one shared database, and
@@ -59,14 +61,13 @@ restored.
 ### Docker (one command)
 
 ```bash
+export SECRET_KEY="$(python -c 'import secrets; print(secrets.token_urlsafe(48))')"
+export ADMIN_PASSWORD="choose-a-strong-admin-password"
 docker compose up --build
 ```
 
-Open <http://localhost:8000> and log in:
-
-| Email | Password |
-|---|---|
-| `admin@routeledger.example` | `RouteLedger!2026` |
+Open <http://localhost:8000> and log in as `admin@routeledger.example` with the
+`ADMIN_PASSWORD` you just chose. The repo does not ship a default password.
 
 The container waits for PostgreSQL, loads the schema and synthetic data on first boot, creates the
 limited application role, and creates the admin account. For a real deployment, override

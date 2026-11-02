@@ -8,13 +8,17 @@ frontend, and connects to any PostgreSQL 16+ database.
 ```bash
 SECRET_KEY="$(python -c 'import secrets; print(secrets.token_urlsafe(48))')" \
 APP_DB_PASSWORD="choose-a-strong-password" \
+ADMIN_PASSWORD="choose-a-strong-admin-password" \
 docker compose up --build
 ```
 
-Open <http://localhost:8000>. The `app` container waits for PostgreSQL, loads
-`schema.sql`, `seed.sql` and `seed_demo_orders.sql` on first boot, creates the
-limited `routeledger_app` role, and creates the admin account from
-`ADMIN_EMAIL` / `ADMIN_PASSWORD`.
+Open <http://localhost:8000> and log in as `admin@routeledger.example` with your
+`ADMIN_PASSWORD`. There is no built-in default password: Compose refuses to
+start until `ADMIN_PASSWORD` is set.
+
+The `app` container waits for PostgreSQL, loads `schema.sql`, `seed.sql` and
+`seed_demo_orders.sql` on first boot, creates the limited `routeledger_app`
+role, and creates the admin account from `ADMIN_EMAIL` / `ADMIN_PASSWORD`.
 
 Compose defaults are development-only. Override `SECRET_KEY`, `APP_DB_PASSWORD`,
 `POSTGRES_PASSWORD`, `ADMIN_PASSWORD` and set `COOKIE_SECURE=true` when serving
