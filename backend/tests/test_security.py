@@ -347,3 +347,36 @@ def test_demo_hint_shows_configured_account(client, monkeypatch):
     assert body["enabled"] is True
     assert body["email"] == "demo@routeledger.example"
     assert body["password"] == "DemoViewer!2026"
+
+
+# ----------------------------------------------------------------------
+# 10. Dashboard month filter
+# ----------------------------------------------------------------------
+def test_dashboard_month_filter_matches_the_monthly_series(client, login):
+    login("Viewer")
+    everything = client.get("/dashboard").json()
+    assert everything["month"] is None
+
+    first = everything["sales_by_month"][0]
+    month = first["month"][:7]
+    narrowed = client.get("/dashboard", params={"month": month}).json()
+
+    assert narrowed["month"] == month
+    # Catalogue and outlet counts describe the business, not the period.
+    assert narrowed["totals"]["products"] == everything["totals"]["products"]
+    assert narrowed["totals"]["retailers"] == everything["totals"]["retailers"]
+    # Period figures match that month's row in the trend.
+    assert narrowed["totals"]["orders"] == first["orders"]
+    assert float(narrowed["totals"]["total_sales"]) == pytest.approx(float(first["total_value"]))
+    assert float(narrowed["totals"]["total_cartons"]) == pytest.approx(float(first["cartons"]))
+    # The trend still returns every month, so the chosen bar has context.
+    assert len(narrowed["sales_by_month"]) == len(everything["sales_by_month"])
+    # The breakdowns add up to the same period total.
+    by_category = sum(float(row["total_value"]) for row in narrowed["sales_by_category"])
+    assert by_category == pytest.approx(float(narrowed["totals"]["total_sales"]))
+
+
+def test_dashboard_rejects_a_bad_month(client, login):
+    login("Viewer")
+    assert client.get("/dashboard", params={"month": "2026-13"}).status_code == 422
+    assert client.get("/dashboard", params={"month": "not-a-month"}).status_code == 422
