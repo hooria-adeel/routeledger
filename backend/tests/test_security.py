@@ -328,3 +328,22 @@ def test_hsts_is_sent_only_when_cookies_are_secure(client, monkeypatch):
 
     monkeypatch.setattr(settings, "cookie_secure", False)
     assert "strict-transport-security" not in client.get("/health").headers
+
+# ----------------------------------------------------------------------
+# 9. Public demo hint (only when explicitly configured)
+# ----------------------------------------------------------------------
+def test_demo_hint_is_hidden_by_default(client):
+    body = client.get("/auth/demo").json()
+    assert body == {"enabled": False, "email": "", "password": ""}
+
+
+def test_demo_hint_shows_configured_account(client, monkeypatch):
+    from app.config import settings
+
+    monkeypatch.setattr(settings, "demo_email", "demo@routeledger.example")
+    monkeypatch.setattr(settings, "demo_password", "DemoViewer!2026")
+
+    body = client.get("/auth/demo").json()
+    assert body["enabled"] is True
+    assert body["email"] == "demo@routeledger.example"
+    assert body["password"] == "DemoViewer!2026"

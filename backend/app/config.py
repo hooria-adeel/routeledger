@@ -26,6 +26,10 @@ class Settings(BaseSettings):
     cors_origins: str = "http://localhost:5173,http://127.0.0.1:5173"
     # names the browser may use to reach this server (blocks DNS-rebinding attacks)
     allowed_hosts: str = "localhost,127.0.0.1,testserver"
+    # Public demo login shown on the sign-in page. Leave both empty in a real
+    # installation; set them only for a synthetic demo with a read-only account.
+    demo_email: str = ""
+    demo_password: str = ""
     # Connection pool size. Serverless platforms should use DB_POOL_MIN=0 so an
     # idle function does not hold database connections open.
     db_pool_min: int = 1

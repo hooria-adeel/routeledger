@@ -86,6 +86,7 @@ Set these in **Project → Settings → Environment Variables** (production):
 | `DB_POOL_MIN` / `DB_POOL_MAX` | `0` / `2` | serverless instances must not hold idle connections |
 | `ALLOWED_HOSTS` | `*.vercel.app` | `TrustedHostMiddleware`; the deployed URL is added automatically |
 | `CORS_ORIGINS` | `https://<project>.vercel.app` | same-origin API calls |
+| `DEMO_EMAIL` / `DEMO_PASSWORD` | a **read-only** account | optional: shows the demo login on the sign-in page. Leave unset for real data |
 
 `APP_DATABASE_URL` exists because the integration owns `DATABASE_URL` (the
 owner role). The app prefers `APP_DATABASE_URL` when both are present.

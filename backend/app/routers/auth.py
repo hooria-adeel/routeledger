@@ -88,6 +88,22 @@ def logout(response: Response):
     return {"message": "Logged out."}
 
 
+@router.get("/demo")
+def demo_login():
+    """Public demo credentials for the sign-in page, when configured.
+
+    Only a synthetic demo should set DEMO_EMAIL / DEMO_PASSWORD, and the
+    account behind them should be read-only. Otherwise this stays disabled so a
+    real installation never advertises a working login.
+    """
+    enabled = bool(settings.demo_email and settings.demo_password)
+    return {
+        "enabled": enabled,
+        "email": settings.demo_email if enabled else "",
+        "password": settings.demo_password if enabled else "",
+    }
+
+
 @router.get("/me", response_model=EmployeeOut)
 def me(user=Depends(get_current_user)):
     """Who am I? The pages use this to show the name and decide which buttons to show."""

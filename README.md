@@ -12,8 +12,8 @@ auditable source of truth.**
 
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/hooria-adeel/routeledger)
 
-**Live demo:** <https://routeledger-omega.vercel.app> — sign in with the
-read-only account `demo@routeledger.example` / `DemoViewer!2026`. It can browse
+**Live demo:** <https://routeledger-omega.vercel.app> — the sign-in page shows a
+one-click **read-only demo account** (`demo@routeledger.example`). It can browse
 every list and the dashboard but cannot change data. The Administrator password
 is not published; set your own when you deploy.
 
@@ -55,6 +55,10 @@ restored.
 | Activity log | Mobile |
 |---|---|
 | ![Activity log](docs/screenshots/activity-log.png) | ![Mobile](docs/screenshots/dashboard-mobile.png) |
+
+| Demo login (public) | Read-only Viewer session |
+|---|---|
+| ![Demo login](docs/screenshots/login-demo.png) | ![Viewer dashboard](docs/screenshots/dashboard-viewer.png) |
 
 ## Quick start
 

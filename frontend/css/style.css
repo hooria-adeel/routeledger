@@ -138,6 +138,11 @@ a { color: var(--accent); }
 .login-card .sub { margin: 0 0 1.1rem; color: var(--muted); font-size: .92rem; }
 .login-card .btn { width: 100%; justify-content: center; padding: .7rem .9rem; font-size: 1.02rem; }
 .login-foot { margin: 1.1rem 0 0; font-size: .8rem; color: var(--muted); text-align: center; }
+.demo-box { margin-top: 1rem; padding: .7rem .85rem; border: 1px dashed var(--border); border-radius: 10px;
+  background: var(--surface-2); font-size: .85rem; color: var(--muted); }
+.demo-box b { color: var(--text); }
+.demo-box .demo-row { display: flex; align-items: center; justify-content: space-between; gap: .6rem; margin-top: .45rem; flex-wrap: wrap; }
+.demo-box code { font-size: .82rem; color: var(--text); word-break: break-all; }
 
 /* ---------- forms ---------- */
 .form { display: grid; gap: .9rem; }

@@ -7,6 +7,26 @@ export function renderLogin(root, onSuccess, notice) {
   const password = el('input', { id: 'password', type: 'password', required: true, autocomplete: 'current-password', maxlength: 128 });
   const button = el('button', { class: 'btn btn-primary', type: 'submit' }, 'Log in');
 
+  // Shown only when the server is configured for a public demo (DEMO_EMAIL and
+  // DEMO_PASSWORD). A real installation leaves it hidden.
+  const demoBox = el('div', { class: 'demo-box', hidden: true });
+  api.get('/auth/demo').then((demo) => {
+    if (!demo || !demo.enabled) return;
+    const fill = el('button', { class: 'btn btn-ghost btn-sm', type: 'button' }, 'Use demo account');
+    fill.addEventListener('click', () => {
+      email.value = demo.email;
+      password.value = demo.password;
+      errorLine.hidden = true;
+      password.focus();
+    });
+    demoBox.replaceChildren(
+      el('div', {}, el('b', {}, 'Demo access'), ' — read-only account for this public demo.'),
+      el('div', { class: 'demo-row' },
+        el('code', {}, demo.email + ' / ' + demo.password),
+        fill));
+    demoBox.hidden = false;
+  }).catch(() => { /* the hint is optional; login still works */ });
+
   const form = el('form', { class: 'form', onsubmit: async (event) => {
     event.preventDefault();
     errorLine.hidden = true;
@@ -42,6 +62,7 @@ export function renderLogin(root, onSuccess, notice) {
       el('h2', {}, 'Welcome back'),
       el('p', { class: 'sub' }, 'Log in to the Distribution Management System.'),
       form,
+      demoBox,
       el('p', { class: 'login-foot' }, 'Authorised employees only. Activity is recorded.'))));
   email.focus();
 }
