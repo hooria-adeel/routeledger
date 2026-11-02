@@ -12,6 +12,9 @@ auditable source of truth.**
 
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/hooria-adeel/routeledger)
 
+**Live demo:** <https://routeledger-omega.vercel.app> — sign in with
+`admin@routeledger.example` / `RouteLedger!2026`.
+
 RouteLedger is a full-stack demo of the system a distributor needs when product lists, retailer
 lists and orders live in emailed Excel files. Employees log in, search one shared database, and
 only authorised roles can change data. Every change is written to an append-only audit log by the
@@ -148,7 +151,7 @@ Details, STRIDE analysis and OWASP Top 10 mapping: [docs/security.md](docs/secur
 **Backend:** Python, FastAPI, psycopg 3 (connection pool), Pydantic v2, Argon2id, PyJWT
 **Database:** PostgreSQL 16+ (triggers, views, GIN trigram indexes, least-privilege role)
 **Frontend:** vanilla JavaScript and CSS, no build step, custom SVG charts
-**Ops:** Docker, Docker Compose, Render blueprint, GitHub Actions, pytest
+**Ops:** Docker, Docker Compose, Vercel + Neon (live demo), Render blueprint, GitHub Actions, pytest
 
 ## Testing
 
@@ -177,6 +180,8 @@ routeledger/
 ├─ docs/           architecture, database, security, deployment, screenshots
 ├─ frontend/       static HTML/CSS/JS
 ├─ docker/         container entrypoint
+├─ index.py        Vercel serverless entrypoint
+├─ vercel.json     Vercel function configuration
 ├─ Dockerfile
 ├─ docker-compose.yml
 ├─ render.yaml

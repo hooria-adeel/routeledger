@@ -20,7 +20,93 @@ Compose defaults are development-only. Override `SECRET_KEY`, `APP_DB_PASSWORD`,
 `POSTGRES_PASSWORD`, `ADMIN_PASSWORD` and set `COOKIE_SECURE=true` when serving
 over HTTPS.
 
-## Option B — Render (managed, free tier)
+## Option B — Vercel + Neon (serverless, free, no card)
+
+This repository is deployed this way: **<https://routeledger-omega.vercel.app>**.
+
+Vercel runs FastAPI as one serverless function (`index.py`) and Neon provides a
+free PostgreSQL database through the Vercel Marketplace. Nothing here needs a
+credit card.
+
+### 1. Link the project and add the database
+
+```bash
+npm i -g vercel
+vercel link --project routeledger
+vercel integration accept-terms neon --yes      # accepts the marketplace terms
+vercel integration add neon --name routeledger-db -e production
+```
+
+The Neon integration injects `DATABASE_URL`, `DATABASE_URL_UNPOOLED`, `PGHOST`,
+`PGPASSWORD` and friends into the project. Pull them locally to load the schema:
+
+```bash
+vercel env pull .env.neon -e production
+```
+
+### 2. Create the schema and the limited role
+
+```bash
+cd backend
+export ADMIN_DATABASE_URL="<DATABASE_URL_UNPOOLED from .env.neon>"
+export DB_USER=routeledger_app DB_PASSWORD="<a strong password>"
+python -m scripts.bootstrap_db
+
+export DATABASE_URL="$ADMIN_DATABASE_URL"
+export ADMIN_EMAIL=admin@routeledger.example
+export ADMIN_PASSWORD="<a strong password>"
+python -m scripts.bootstrap_admin
+```
+
+`bootstrap_db` loads `schema.sql`, the synthetic seed and the 400 demo orders,
+then grants the application role only `SELECT`, `INSERT`, `UPDATE` and the
+delete rights it needs. It never gets `CREATE`, `DROP` or access to rewrite the
+audit log — verified against Neon:
+
+```
+create table: blocked (InsufficientPrivilege)
+drop table:   blocked (InsufficientPrivilege)
+edit audit log: blocked (InsufficientPrivilege)
+```
+
+### 3. Environment variables
+
+Set these in **Project → Settings → Environment Variables** (production):
+
+| Variable | Value | Why |
+|---|---|---|
+| `APP_DATABASE_URL` | pooled URL for `routeledger_app` | connect as the limited role instead of Neon's owner |
+| `SECRET_KEY` | 48+ random characters | JWT signing |
+| `COOKIE_SECURE` | `true` | `Secure` cookie + HSTS |
+| `DB_DISABLE_PREPARED` | `true` | Neon's pooler cannot keep prepared statements |
+| `DB_POOL_MIN` / `DB_POOL_MAX` | `0` / `2` | serverless instances must not hold idle connections |
+| `ALLOWED_HOSTS` | `*.vercel.app` | `TrustedHostMiddleware`; the deployed URL is added automatically |
+| `CORS_ORIGINS` | `https://<project>.vercel.app` | same-origin API calls |
+
+`APP_DATABASE_URL` exists because the integration owns `DATABASE_URL` (the
+owner role). The app prefers `APP_DATABASE_URL` when both are present.
+
+### 4. Deploy
+
+```bash
+vercel --prod
+```
+
+`index.py` re-exports the FastAPI app from `backend/` because Vercel looks for a
+`FastAPI` instance named `app` at the project root. `vercel.json` keeps the
+bundle small, and `.vercelignore` keeps `.env` files and tests out of the upload.
+
+### Serverless notes
+
+- Function instances are recycled; `min_size=0` and a connection check avoid
+  leaking connections into Neon's limit.
+- Use the **pooled** host for the app (`...-pooler...`) and the **unpooled** one
+  for migrations and `bootstrap_db`.
+- Cold starts add roughly 1–2 seconds to the first request.
+- Deployment Protection must be off for a public demo; otherwise every visitor
+  needs a Vercel account.
+
+## Option C — Render (managed, free tier)
 
 ### 1. Push the repository to GitHub
 
@@ -66,7 +152,7 @@ Also confirm: login works, the dashboard shows 460 orders, and
 `curl -I https://<your-service>.onrender.com/` returns
 `strict-transport-security` and `content-security-policy`.
 
-## Option C — any Docker host or VPS
+## Option D — any Docker host or VPS
 
 ```bash
 docker build -t routeledger .

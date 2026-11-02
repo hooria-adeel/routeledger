@@ -1,0 +1,14 @@
+# Files that never need to leave this machine when deploying to Vercel.
+.git
+.venv
+**/.venv
+**/__pycache__
+**/*.pyc
+**/.pytest_cache
+backend/.env
+.env*
+backend/tests
+docs/screenshots
+docker
+.github
+.vercel

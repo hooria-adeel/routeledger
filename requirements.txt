@@ -1,0 +1,12 @@
+# Runtime dependencies for Vercel (and any serverless host).
+# This mirrors backend/requirements.txt; that file stays the source for local
+# development, Docker and CI. Keep the two in sync when upgrading.
+fastapi==0.142.2
+uvicorn[standard]==0.54.0
+psycopg[binary,pool]==3.3.6
+psycopg-pool==3.3.3
+pydantic-settings==2.15.0
+argon2-cffi==25.1.0
+PyJWT==2.15.1
+python-multipart==0.0.32
+python-dotenv==1.0.1

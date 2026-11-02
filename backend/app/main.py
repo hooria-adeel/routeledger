@@ -8,7 +8,7 @@ from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from fastapi.staticfiles import StaticFiles
 
 from app.config import settings
-from app.database import get_db, pool
+from app.database import ensure_pool, get_db, pool
 from app.middleware import (
     add_security_headers,
     allowed_hosts,
@@ -35,7 +35,7 @@ mimetypes.add_type("image/svg+xml", ".svg")
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    pool.open()      # app starts: open the database connections
+    ensure_pool()    # app starts: open the database connections (once)
     yield
     pool.close()     # app stops: close them
 

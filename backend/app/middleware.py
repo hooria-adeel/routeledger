@@ -41,7 +41,7 @@ ALLOWED_ORIGINS = {
 def cors_origins() -> list[str]:
     """Configured origins, plus the platform URL when the host tells us one.
 
-    Render, Fly.io and Railway all expose the public hostname in an
+    Render, Fly.io, Railway and Vercel all expose the public hostname in an
     environment variable. Adding it automatically keeps the deployment
     configuration shorter and avoids a broken first deploy.
     """
@@ -52,6 +52,10 @@ def cors_origins() -> list[str]:
             origins.append(f"https://{host}")
         elif host and variable == "FLY_APP_NAME":
             origins.append(f"https://{host}.fly.dev")
+    for variable in ("VERCEL_URL", "VERCEL_BRANCH_URL", "VERCEL_PROJECT_PRODUCTION_URL"):
+        host = os.environ.get(variable)
+        if host:
+            origins.append(f"https://{host}")
     return sorted(set(origins))
 
 
@@ -61,6 +65,13 @@ def allowed_hosts() -> list[str]:
     host = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
     if host:
         hosts.add(host)
+    for variable in ("VERCEL_URL", "VERCEL_BRANCH_URL", "VERCEL_PROJECT_PRODUCTION_URL"):
+        host = os.environ.get(variable)
+        if host:
+            hosts.add(host)
+    # Vercel preview deployments get a new *.vercel.app name on every commit.
+    if os.environ.get("VERCEL"):
+        hosts.add("*.vercel.app")
     return sorted(hosts)
 
 
