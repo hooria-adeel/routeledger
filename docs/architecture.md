@@ -59,7 +59,9 @@ PostgreSQL 16+  (schema, constraints, triggers, views, roles)
 ## Database
 
 See [`database.md`](database.md) for the ER diagram, data dictionary,
-normalisation and trigger catalogue.
+normalisation and trigger catalogue. The standalone diagram is
+[`erd.md`](erd.md); data movement and trust boundaries are in
+[`dfd.md`](dfd.md).
 
 ## Repository layout
 
@@ -72,7 +74,7 @@ routeledger/
 │  ├─ requirements*.txt
 │  └─ .env.example
 ├─ database/               schema, synthetic seed, role grants
-├─ docs/                   architecture, database, security, deployment
+├─ docs/                   SRS, SDS, ERD, DFD, architecture, database, security, deployment
 ├─ frontend/               static HTML/CSS/JS
 ├─ docker/                 container entrypoint
 ├─ Dockerfile

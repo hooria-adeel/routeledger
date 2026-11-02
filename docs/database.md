@@ -4,7 +4,14 @@ RouteLedger runs on PostgreSQL 16+ and is designed so the database protects the
 data even if the application has a bug. The full definition is in
 [`database/schema.sql`](../database/schema.sql); this page explains the *why*.
 
+Related: requirements in [`srs.md`](srs.md), design rationale in
+[`sds.md`](sds.md), the standalone diagram in [`erd.md`](erd.md), and data
+movement in [`dfd.md`](dfd.md).
+
 ## Entity-relationship diagram
+
+The standalone diagram, cardinality rationale and normalisation notes are in
+[`erd.md`](erd.md). The short version:
 
 ```mermaid
 erDiagram
@@ -216,7 +223,7 @@ calculation.
 | `v_sales_detail` | one row per order line, the base for reports |
 | `v_sales_by_retailer` | sales per retailer |
 | `v_sales_by_product` | best-selling products |
-| `v_sales_by_month` | monthly trend on the dashboard |
+| `v_sales_by_month` | monthly sales trend (the dashboard adds live order counts) |
 | `v_sales_by_area` | geographic mix (unknown area becomes "Not recorded") |
 
 ## Indexes

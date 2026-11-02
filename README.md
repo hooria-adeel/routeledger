@@ -4,7 +4,7 @@
 auditable source of truth.**
 
 [![CI](https://github.com/hooria-adeel/routeledger/actions/workflows/ci.yml/badge.svg)](https://github.com/hooria-adeel/routeledger/actions/workflows/ci.yml)
-[![Tests](https://img.shields.io/badge/tests-93%20passed-brightgreen)](#testing)
+[![Tests](https://img.shields.io/badge/tests-97%20passed-brightgreen)](#testing)
 [![Python](https://img.shields.io/badge/python-3.12%20%7C%203.13-blue)](https://www.python.org/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16%2B-336791)](https://www.postgresql.org/)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
@@ -40,7 +40,7 @@ restored.
 | **Fast search** | server-side search with GIN trigram indexes, paging capped at 100 rows |
 | **Dashboard** | KPI cards, monthly sales, category donut, area treemap, top retailers/products, month filter |
 | **Accessible UI** | light/dark theme, three text sizes, keyboard focus, responsive layout |
-| **75 security + 18 database tests** | constraints, triggers, views, rollback, RBAC and attack payloads |
+| **79 security + 18 database tests** | constraints, triggers, views, rollback, RBAC and attack payloads |
 
 ## Screenshots
 
@@ -59,6 +59,20 @@ restored.
 | Demo login (public) | Read-only Viewer session |
 |---|---|
 | ![Demo login](docs/screenshots/login-demo.png) | ![Viewer dashboard](docs/screenshots/dashboard-viewer.png) |
+
+## Documentation
+
+| Document | What it covers |
+|---|---|
+| [Software Requirements Specification](docs/srs.md) | Scope, actors, functional and non-functional requirements, business rules, acceptance criteria |
+| [Software Design Specification](docs/sds.md) | Components, request pipeline, API contract, transactions, configuration, traceability to the SRS |
+| [Entity-Relationship Diagram](docs/erd.md) | Standalone ERD, relationship cardinalities, key design, normalisation |
+| [Data Flow Diagram](docs/dfd.md) | Context, level 1 and level 2 flows, data stores D1–D6, trust boundaries |
+| [Architecture](docs/architecture.md) | Request flow and module responsibilities |
+| [Database design](docs/database.md) | Data dictionary, trigger catalogue, views, indexes |
+| [Security](docs/security.md) | Controls, STRIDE analysis, OWASP Top 10 mapping |
+| [Deployment](docs/deployment.md) | Vercel + Neon, Docker, Render, environment variables |
+| [queries.sql](docs/queries.sql) | Reporting and verification SQL |
 
 ## Quick start
 
@@ -125,13 +139,14 @@ What makes the database the interesting part of this project:
 - **Audit and price history** — triggers, not application code, write `activity_log` and
   `product_price_history`. The log is append-only.
 - **Reporting views** — seven views (`v_sales_detail`, `v_sales_by_month`, `v_sales_by_area`, …)
-  power the dashboard without duplicating SQL.
+  feed the dashboard and reporting SQL without duplicating joins.
 - **Least privilege** — the web app connects as `routeledger_app`, which cannot drop tables,
   alter roles, or update/delete the audit log.
 - **Soft delete** — records are hidden, not destroyed, and Managers can restore them.
 
 The full ER diagram, data dictionary, normalisation notes and trigger catalogue are in
-[docs/database.md](docs/database.md). Analytical queries and report SQL live in
+[docs/database.md](docs/database.md), with a standalone diagram in
+[docs/erd.md](docs/erd.md). Analytical queries and report SQL live in
 [docs/queries.sql](docs/queries.sql).
 
 ## Security
@@ -165,9 +180,9 @@ cd backend
 pytest -q
 ```
 
-**93 tests** run against a real PostgreSQL database (`routeledger_test`):
+**97 tests** run against a real PostgreSQL database (`routeledger_test`):
 
-- **Security (75):** password hashing, lockout, rate limiting, forged/expired tokens, SQL injection
+- **Security (79):** password hashing, lockout, rate limiting, forged/expired tokens, SQL injection
   payloads, RBAC for every role, stale edits, transaction rollback, audit immutability, headers,
   CSP, origin checks, least-privilege database role.
 - **Database (18):** views and triggers exist, constraints reject bad data, version conflicts,
@@ -182,7 +197,7 @@ Docker image on every push.
 routeledger/
 ├─ backend/        FastAPI app, scripts, tests
 ├─ database/       schema.sql, seed data, grants, synthetic data generator
-├─ docs/           architecture, database, security, deployment, screenshots
+├─ docs/           SRS, SDS, ERD, DFD, architecture, database, security, deployment
 ├─ frontend/       static HTML/CSS/JS
 ├─ docker/         container entrypoint
 ├─ index.py        Vercel serverless entrypoint
