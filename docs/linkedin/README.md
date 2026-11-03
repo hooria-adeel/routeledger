@@ -9,6 +9,7 @@ Upload these as a multi-image post, in this order:
 5. `05-audit-trail.png` — before/after audit record
 6. `06-database-erd.png` — entity-relationship diagram
 7. `07-viewer-role.png` — read-only Viewer permissions
+8. `08-dashboard-dark.png` — the dashboard in dark mode
 
 All data is synthetic.
 
@@ -23,6 +24,7 @@ All data is synthetic.
 6. Entity-relationship diagram for roles, employees, products, orders, order
    items, branches and the activity log.
 7. Dashboard as a read-only Viewer; Employees and Activity log are not available.
+8. RouteLedger dashboard in dark mode with the same KPIs and charts.
 
 The ERD image is rendered from `docs/erd.md`. The app screenshots come from
 `docs/screenshots/`.
