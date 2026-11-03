@@ -4,7 +4,7 @@
 auditable source of truth.**
 
 [![CI](https://github.com/hooria-adeel/routeledger/actions/workflows/ci.yml/badge.svg)](https://github.com/hooria-adeel/routeledger/actions/workflows/ci.yml)
-[![Tests](https://img.shields.io/badge/tests-97%20passed-brightgreen)](#testing)
+[![Tests](https://img.shields.io/badge/tests-98%20passed-brightgreen)](#testing)
 [![Python](https://img.shields.io/badge/python-3.12%20%7C%203.13-blue)](https://www.python.org/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16%2B-336791)](https://www.postgresql.org/)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
@@ -40,7 +40,7 @@ restored.
 | **Fast search** | server-side search with GIN trigram indexes, paging capped at 100 rows |
 | **Dashboard** | KPI cards, monthly sales, category donut, area treemap, top retailers/products, month filter |
 | **Accessible UI** | light/dark theme, three text sizes, keyboard focus, responsive layout |
-| **79 security + 18 database tests** | constraints, triggers, views, rollback, RBAC and attack payloads |
+| **80 security + 18 database tests** | constraints, triggers, views, rollback, RBAC and attack payloads |
 
 ## Screenshots
 
@@ -180,9 +180,9 @@ cd backend
 pytest -q
 ```
 
-**97 tests** run against a real PostgreSQL database (`routeledger_test`):
+**98 tests** run against a real PostgreSQL database (`routeledger_test`):
 
-- **Security (79):** password hashing, lockout, rate limiting, forged/expired tokens, SQL injection
+- **Security (80):** password hashing, lockout, rate limiting, forged/expired tokens, SQL injection
   payloads, RBAC for every role, stale edits, transaction rollback, audit immutability, headers,
   CSP, origin checks, least-privilege database role.
 - **Database (18):** views and triggers exist, constraints reject bad data, version conflicts,

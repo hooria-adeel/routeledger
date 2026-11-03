@@ -72,8 +72,12 @@ export async function render(root) {
       return;
     }
     if (first) root.replaceChildren(head, kpis, el('div', { class: 'dash-grid a' }, monthCard, donutCard), el('div', { class: 'dash-grid b' }, treeCard, leadCard));
-    drawHead(); drawKpis(); drawMonths(); drawDonut(); drawTree(); drawLeaders();
-    busyBoxes.forEach((b) => b.classList.remove('busy'));
+    try {
+      drawHead(); drawKpis(); drawMonths(); drawDonut(); drawTree(); drawLeaders();
+    } finally {
+      // Never leave the page faded if one section fails to draw.
+      busyBoxes.forEach((b) => b.classList.remove('busy'));
+    }
   }
   const setMonth = (key) => { state.month = state.month === key ? null : key; load(false); };
 
@@ -180,7 +184,9 @@ export async function render(root) {
 
   // ---- 3. area treemap ----
   function drawTree() {
-    const rows = data.sales_by_area.filter((r) => Number(r.total_value) > 0).map((r) => ({ ...r, value: Number(r.total_value) }));
+    const rows = data.sales_by_area
+      .filter((r) => Number(r.total_value) > 0)
+      .map((r) => ({ ...r, area: r.area || 'Not recorded', value: Number(r.total_value) }));
     const total = rows.reduce((s, r) => s + r.value, 0);
     if (!total) { treeCard.replaceChildren(cardHead('Sales by area'), nothing()); return; }
     const W = 640, H = 340;

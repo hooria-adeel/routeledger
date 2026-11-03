@@ -375,7 +375,7 @@ flowchart TB
 
     subgraph TB5["TB5 - Supply chain"]
         GH["GitHub repository"]
-        CI["GitHub Actions<br/>97 tests + Docker build"]
+        CI["GitHub Actions<br/>98 tests + Docker build"]
         OP["Operator<br/>vercel --prod"]
     end
 

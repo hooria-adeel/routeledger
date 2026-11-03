@@ -419,7 +419,7 @@ Deployment steps for Vercel + Neon, Docker and Render are in
 
 | Layer | Approach |
 |---|---|
-| Security (`test_security.py`, 79 tests) | Real HTTP calls through `TestClient`; attack payloads for SQL injection and XSS; forged/expired/wrong-key tokens; role matrix for every write; CSRF and host headers; lockout and rate limit |
+| Security (`test_security.py`, 80 tests) | Real HTTP calls through `TestClient`; attack payloads for SQL injection and XSS; forged/expired/wrong-key tokens; role matrix for every write; CSRF and host headers; lockout and rate limit |
 | Database (`test_database.py`, 18 tests) | Real PostgreSQL `routeledger_test`; constraint rejection; trigger behaviour; view reconciliation; rollback; audit immutability; least-privilege grants |
 | CI | GitHub Actions runs both suites on Python 3.12 and 3.13 with a PostgreSQL service container, then builds the Docker image |
 

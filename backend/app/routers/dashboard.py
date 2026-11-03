@@ -86,7 +86,8 @@ def dashboard(
             """
         ).fetchall(),
         "sales_by_area": db.execute(
-            "SELECT area, SUM(cartons) AS cartons, SUM(line_value) AS total_value "
+            "SELECT COALESCE(area, 'Not recorded') AS area, "
+            "SUM(cartons) AS cartons, SUM(line_value) AS total_value "
             f"FROM v_sales_detail{where} GROUP BY 1 ORDER BY total_value DESC",
             params,
         ).fetchall(),

@@ -245,7 +245,7 @@ Each functional area above is covered by automated tests; the mapping is in
 | CSRF, hosts, headers | dedicated tests and live checks on the deployment |
 | Reconciliation (FR-D4) | view totals compared with raw order lines |
 
-Current suite: **97 tests** (79 security + 18 database), all passing.
+Current suite: **98 tests** (80 security + 18 database), all passing.
 
 ## 9. Constraints and assumptions
 

@@ -380,3 +380,23 @@ def test_dashboard_rejects_a_bad_month(client, login):
     login("Viewer")
     assert client.get("/dashboard", params={"month": "2026-13"}).status_code == 422
     assert client.get("/dashboard", params={"month": "not-a-month"}).status_code == 422
+
+
+def test_dashboard_area_breakdown_always_has_labels(client, login):
+    """Unrecorded areas must arrive as 'Not recorded', never null.
+
+    The chart reads ``area.length``; before this was fixed, a null area threw
+    and left the dashboard stuck in its faded loading state.
+    """
+    login("Viewer")
+    everything = client.get("/dashboard").json()
+    month = everything["sales_by_month"][0]["month"][:7]
+
+    for params in ({}, {"month": month}):
+        body = client.get("/dashboard", params=params).json()
+        areas = body["sales_by_area"]
+        assert areas
+        assert all(isinstance(row["area"], str) and row["area"] for row in areas)
+        assert sum(float(row["total_value"]) for row in areas) == pytest.approx(
+            float(body["totals"]["total_sales"])
+        )
